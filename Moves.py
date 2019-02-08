@@ -62,3 +62,62 @@ class Moves:
 
         return cube
 
+    @staticmethod
+    def right(cube, ccw):
+        temp = [[" " for _ in range(9)] for _ in range(12)]
+
+        right_moves = [
+                        # right top left
+                        [(3,6),(5,6)],
+                        [(2,5),(5,5)],
+                        [(3,5),(6,5)],
+
+                        # right top middle
+                        [(3,7),(4,6)],
+                        [(1,5),(4,5)],
+
+                        # right top right
+                        [(3,8),(3,6)],
+                        [(0,5),(3,5)],
+                        [(11,5),(0,5)],
+
+                        # right middle left
+                        [(4,6),(5,7)],
+                        [(4,5),(7,5)],
+
+                        # right middle right
+                        [(4,8),(3,7)],
+                        [(10,5),(1,5)],
+
+                        # right bottom left
+                        [(5,6),(5,8)],
+                        [(5,5),(8,5)],
+                        [(6,5),(9,5)],
+
+                        # right bottom middle
+                        [(5,7),(4,8)],
+                        [(7,5),(10,5)],
+
+                        # right bottom right
+                        [(5,8),(3,8)],
+                        [(8,5),(11,5)],
+                        [(9,5),(0,5)]]
+
+        if ccw:
+            left_moves_r = right_moves
+            for x in range(len(left_moves_r)):
+                left_moves_r[x] = [left_moves_r[x][1], left_moves_r[x][0]]
+
+            for move in left_moves_r:
+                temp[move[0][0]][move[0][1]] = cube[move[1][0]][move[1][1]]
+        else:
+            for move in right_moves:
+                temp[move[0][0]][move[0][1]] = cube[move[1][0]][move[1][1]]
+
+        for x in range(12):
+            for y in range(9):
+                if temp[x][y] is not " ":
+                    cube[x][y] = temp[x][y]
+
+        return cube
+

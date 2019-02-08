@@ -5,6 +5,7 @@ class Cube:
         self.moves = Moves()
         self.cube = [[" " for _ in range(9)] for _ in range(12)]
         self.turns = turns
+        self.cycles = 0
         for x in range(len(self.cube)):
             for y in range(len(self.cube[x])):
                 if x <= 2 and y in range(3, 6):
@@ -19,13 +20,42 @@ class Cube:
                     self.cube[x][y] = "Y"
                 elif x in range(9, 13) and y in range(3, 6):
                     self.cube[x][y] = "G"
-        self.solved = '\n'.join([' '.join(str(y) for y in row) for row in self.cube]) + "\n"
+        self.solved = self.cube
 
     def __str__(self):
         return '\n'.join([' '.join(str(y) for y in row) for row in self.cube]) + "\n"
 
     def move(self):
+
         self.turn()
+        self.cycles += 1
+        while self.cube != Cube.solved():
+            print("Cycle: ", self.cycles)
+            self.turn()
+            self.cycles += 1
+            if self.cycles == 6:
+                print(self.__str__())
+                break
+
+    @staticmethod
+    def solved():
+        solved_cube = [[" " for _ in range(9)] for _ in range(12)]
+        for x in range(len(solved_cube)):
+            for y in range(len(solved_cube[x])):
+                if x <= 2 and y in range(3, 6):
+                    solved_cube[x][y] = "W"
+                elif x in range(3, 6) and y <= 2:
+                    solved_cube[x][y] = "R"
+                elif x in range(3, 6) and y in range(2, 6):
+                    solved_cube[x][y] = "B"
+                elif x in range(3, 6) and y >= 6:
+                    solved_cube[x][y] = "O"
+                elif x in range(6, 9) and y in range(3, 6):
+                    solved_cube[x][y] = "Y"
+                elif x in range(9, 13) and y in range(3, 6):
+                    solved_cube[x][y] = "G"
+
+        return solved_cube
 
     def turn(self):
         top = ["U", "u", "White", "white", "Top", "top", "T", "t"]
@@ -95,10 +125,8 @@ class Cube:
     def left(self, ccw=False):
         self.cube = self.moves.left(self.cube, ccw)
 
-        pass
-
     def right(self, ccw=False):
-        pass
+        self.cube = self.moves.right(self.cube, ccw)
 
     def front(self, ccw=False):
         pass
@@ -110,9 +138,7 @@ class Cube:
         pass
 
 
-
-
-cube = Cube(['l','u','l','u','l','u'])
-print(cube)
+cube = Cube(['t','l','t\'','l\''])
+#print(cube)
 cube.move()
-print(cube)
+print(cube.cycles)
