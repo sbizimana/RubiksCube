@@ -113,6 +113,6 @@ class Cube:
 
 
 cube = Cube(["U'"])
-#print(cube)
+print(cube)
 cube.move()
 print(cube)
