@@ -24,8 +24,8 @@ class Cube:
     def __str__(self):
         return '\n'.join([' '.join(str(y) for y in row) for row in self.cube]) + "\n"
 
-    def __repr__(self, *args, **kwargs):
-        print(self.__str__())
+    def move(self):
+        self.turn()
 
     def turn(self):
         top = ["U", "u", "White", "white", "Top", "top", "T", "t"]
@@ -90,10 +90,11 @@ class Cube:
                 self.down()
 
     def top(self, ccw=False):
-        temp = [[" " for _ in range(9)] for _ in range(12)]
-        self.cube = self.moves.top(temp, self.cube, ccw)
+        self.cube = self.moves.top(self.cube, ccw)
 
     def left(self, ccw=False):
+        self.cube = self.moves.left(self.cube, ccw)
+
         pass
 
     def right(self, ccw=False):
@@ -108,11 +109,10 @@ class Cube:
     def down(self, ccw=False):
         pass
 
-    def move(self):
-        self.turn()
 
 
-cube = Cube(["U'"])
+
+cube = Cube(['l','u','l','u','l','u'])
 print(cube)
 cube.move()
 print(cube)
